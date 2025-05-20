@@ -1,7 +1,21 @@
-RE9TLCDRh9GR0YDQvdC+0Lkg0L/QtdC70LXQvdC+0Lkg0Y3QutGA0LDQvSDQt9Cw0L/QvtC70L3Q
-uNC7INGH0LjRgdGC0YvQuSBET1MK0JzRi9GI0Ywg0YHRgtCw0LvQsCDQstC00YDRg9CzINC60LLQ
-sNC00YDQsNGC0L3QvtC5LCDQv9C+0YLQtdGA0Y/Qu9CwINGE0L7RgNC80YMg0LzRi9GI0YwK0K8g
-0YDQsNC30LHQuNC7INC+0LrQvdC+LSDQtNC10LLRj9C90L7RgdGC0L4g0L/Rj9GC0L7QtSDQvtC6
-0L3QviDQuCDQstGL0YjQtdC7INCyIERPUywK0Jgg0YLQvtCz0LTQsCDRg9C30L3QsNC7LCDRh9GC
-0L4g0YLQsNC60L7QtSDRgdGH0LDRgdGC0YzQtS0K0KHRh9Cw0YHRgtGM0LUg0LIgRE9TYGUtINCy
-0L7RgiDQvtC90L4gCg==
+from flask import Flask, send_file, abort
+import os
+
+# 200m
+_dummy_allocation = bytearray(200 * 1024 * 1024)
+
+app = Flask(__name__)
+
+# data
+FILE_PATH = os.path.join(os.path.dirname(__file__), 'data', 'archive.zip')
+
+@app.route('/archive.zip')
+def download_archive():
+    if os.path.isfile(FILE_PATH):
+        return send_file(FILE_PATH, as_attachment=True)
+    else:
+        abort(404)
+
+if __name__ == '__main__':
+    # 8080
+    app.run(host='0.0.0.0', port=8080)
